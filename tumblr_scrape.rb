@@ -2,22 +2,22 @@
 require 'open-uri'
 require 'digest/md5'
 
-regex = /http:\/\/\d+.media.tumblr.com\/tumblr_(.*).(jpg|png)/
+regex = /http:\/\/\d+.media.tumblr.com\/(.*)\/tumblr_(.*).(jpg|png)/
 num = 1
 count = 1
 max = 9000
 done = false
 
 # make cli arg
-if ARGV.size == 1:
+if ARGV.size == 1
 	user = ARGV[0]
 	basedir = Dir.pwd # default saves to current dir
 	puts "[!] no save directory found, using current location"
 	sleep 3
-elsif ARGV.size == 2:
+elsif ARGV.size == 2
 	user = ARGV[0]
 	basedir = ARGV[1]
-elsif ARGV.size == 3:
+elsif ARGV.size == 3
 	user = ARGV[0]
 	basedir = ARGV[1]
 	max = ARGV[2]
@@ -30,7 +30,9 @@ while not done do
 	arr = Array.new
 	puts "[+] scraping page #{num}"
 	page = open('http://'+user+'.tumblr.com/page/'+num.to_s) do |p|
+		#puts "opening " + 'http://'+user+'.tumblr.com/page/'+num.to_s
 		p.each_line do |line|
+			#puts "line: " + line
 			arr.push($&) if line =~ regex
 		end
 	end
